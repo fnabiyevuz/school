@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Grade
+{% endblock title %}
+
+{% block content %}
+    <h1>Grade</h1>
+
+<form action="{% url 'common:add-grade' %}" method="post">
+    {% csrf_token %}
+    <select name="base">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+    </select>
+    <input type="text" name="name" placeholder="Enter name">
+    <input type="submit" value="Add">
+</form>
+
+<br>
+
+<table border="1" width="300">
+  <tr>
+    <th>#</th>
+    <th>Base</th>
+    <th>Name</th>
+    <th>Update</th>
+    <th>Delete</th>
+  </tr>
+    {% for grade in grades %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ grade.base }}</td>
+        <td>{{ grade.name }}</td>
+        <td><a href="{% url 'common:update-grade' grade.id %}">Update</a></td>
+        <td><a href="{% url 'common:delete-grade' grade.id %}">Delete</a></td>
+      </tr>
+    {% endfor %}
+
+</table>
+<br>
+{% if grade %}
+<form action="{% url 'common:update-grade' grade.id %}" method="post">
+    {% csrf_token %}
+    <select name="base">
+      <option value="1" {% if grade.base == 1 %} selected {% endif %}>1</option>
+      <option value="2" {% if grade.base == 2 %} selected {% endif %}>2</option>
+      <option value="3" {% if grade.base == 3 %} selected {% endif %}>3</option>
+      <option value="4" {% if grade.base == 4 %} selected {% endif %}>4</option>
+      <option value="5" {% if grade.base == 5 %} selected {% endif %}>5</option>
+      <option value="6" {% if grade.base == 6 %} selected {% endif %}>6</option>
+      <option value="7" {% if grade.base == 7 %} selected {% endif %}>7</option>
+      <option value="8" {% if grade.base == 8 %} selected {% endif %}>8</option>
+      <option value="9" {% if grade.base == 9 %} selected {% endif %}>9</option>
+      <option value="10" {% if grade.base == 10 %} selected {% endif %}>10</option>
+      <option value="11" {% if grade.base == 11 %} selected {% endif %}>11</option>
+    </select>
+    <input type="text" name="name" placeholder="Enter name" value="{{ grade.name }}">
+    <input type="submit" value="Update">
+</form>
+{% endif %}
+{% endblock content %}
